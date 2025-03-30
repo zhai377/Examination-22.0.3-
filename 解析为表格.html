@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON数据解析器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .xKl_p9q {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .xKl_p9q input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .bTr5_Qw {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .bTr5_Qw:hover {
+            background-color: #45a049;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .bTr5_Qw i {
+            margin-right: 8px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            text-align: center; /* 修改表头文本为居中对齐 */
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .cRt7_iT {
+            margin-bottom: 30px;
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .dFg3_oP {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #444;
+        }
+        .eHj2_kL {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .eHj2_kL span {
+            margin-right: 15px;
+        }
+        .fMn5_rS {
+            margin: 20px 0;
+            padding: 10px;
+            text-align: center;
+        }
+        .fMn5_rS input {
+            padding: 8px;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .gBv1_tU {
+            color: blue;
+            font-weight: bold;
+        }
+        
+        /* 添加弹出图片容器样式 */
+        .image-popup-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .image-popup-content {
+            max-width: 90%;
+            max-height: 90vh;
+            position: relative;
+        }
+        
+        .image-popup-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border: 2px solid white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .image-not-found {
+            color: white;
+            text-align: center;
+            font-size: 18px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+    <div class="xKl_p9q">
+        <label class="bTr5_Qw">
+            <i>📁</i>选择文件
+            <input type="file" id="hYw4_zX" accept=".json">
+        </label>
+    </div>
+
+    <div class="container">
+        <h1>文件解析</h1>
+
+        <div class="fMn5_rS">
+            <input type="text" id="iJk7_vB" placeholder="输入考点关键词搜索...">
+        </div>
+        <div id="jLm9_nC"></div>
+    </div>
+    
+    <!-- 添加弹出图片容器 -->
+    <div id="imagePopupContainer" class="image-popup-container">
+        <div class="image-popup-content" id="imagePopupContent"></div>
+    </div>
+
+    <script>
+        document.getElementById('hYw4_zX').addEventListener('change', function(event) {
+            const kOp2_qR = event.target.files[0];
+            if (!kOp2_qR) return;
+    
+            const lSt5_uV = new FileReader();
+            lSt5_uV.onload = function(e) {
+                try {
+                    const mWx8_yZ = "P@s$w0rD#7^Kj*9!Lm&Z";
+                    const nAb1_cD = e.target.result;
+                    const oEf4_gH = CryptoJS.AES.decrypt(nAb1_cD, mWx8_yZ);
+                    const pIj7_kL = oEf4_gH.toString(CryptoJS.enc.Utf8);
+                    
+                    if (!pIj7_kL) {
+                        throw new Error('解密失败，可能是密钥不正确');
+                    }
+                    
+                    const qMn0_oP = JSON.parse(pIj7_kL);
+                    rQs3_tU(qMn0_oP);
+                } catch (error) {
+                    alert('解析文件时出错: ' + error.message);
+                    console.error(error);
+                }
+            };
+            lSt5_uV.readAsText(kOp2_qR);
+        });
+    
+        function sVw6_xY(text, uZa9_bC) {
+            if (!uZa9_bC) return text;
+            const vDe2_fG = new RegExp(uZa9_bC, 'gi');
+            return text.replace(vDe2_fG, match => `<span class="gBv1_tU">${match}</span>`);
+        }
+    
+        // 修改打开图片的函数
+        function openImage(imageName) {
+            // 构建图片路径
+            const imagePath = `image/${imageName}.png`;
+            
+            // 获取弹出容器
+            const popupContainer = document.getElementById('imagePopupContainer');
+            const popupContent = document.getElementById('imagePopupContent');
+            
+            // 清空内容
+            popupContent.innerHTML = '';
+            
+            // 创建图片元素
+            const img = document.createElement('img');
+            img.src = imagePath;
+            img.alt = imageName;
+            
+            // 图片加载错误处理
+            img.onerror = function() {
+                popupContent.innerHTML = `<div class="image-not-found">图片未找到: ${imageName}.png</div>`;
+            };
+            
+            // 添加图片到弹出窗口
+            popupContent.appendChild(img);
+            
+            // 显示弹出窗口
+            popupContainer.style.display = 'flex';
+            
+            // 添加双击关闭事件
+            popupContainer.onclick = function() {
+                popupContainer.style.display = 'none';
+            };
+        }
+    
+        function rQs3_tU(data) {
+            const wHi5_jK = document.getElementById('jLm9_nC');
+            wHi5_jK.innerHTML = '';
+    
+            const xLm8_nO = document.createElement('div');
+            xLm8_nO.className = 'cRt7_iT';
+            
+            const yPq1_rS = document.createElement('table');
+            const zTu4_vW = document.createElement('thead');
+            const aXy7_zA = document.createElement('tbody');
+            
+            zTu4_vW.innerHTML = `
+                <tr>
+                    <th>题目名称</th>
+                    <th>考点列表</th>
+                </tr>
+            `;
+            
+            const bBc0_dE = [];
+            
+            Object.entries(data).forEach(([cFg3_hI, dJk6_lM]) => {
+                const eNp9_qR = [
+                    ...dJk6_lM.tableData.flat().filter(point => point && point !== '---'),
+                    dJk6_lM.questionType,
+                    dJk6_lM.subject
+                ].filter(Boolean);
+                
+                const fSt2_uV = eNp9_qR.join('、');
+                bBc0_dE.push({title: cFg3_hI, pointsText: fSt2_uV});
+                
+                const gWx5_yZ = document.createElement('tr');
+                gWx5_yZ.dataset.title = cFg3_hI;
+                gWx5_yZ.dataset.points = fSt2_uV;
+                
+                // 添加双击事件监听器
+                gWx5_yZ.style.cursor = 'pointer';
+                gWx5_yZ.addEventListener('dblclick', function() {
+                    openImage(cFg3_hI);
+                });
+                
+                const hAb8_cD = document.createElement('td');
+                hAb8_cD.textContent = cFg3_hI;
+                gWx5_yZ.appendChild(hAb8_cD);
+                
+                const iEf1_gH = document.createElement('td');
+                iEf1_gH.innerHTML = fSt2_uV;
+                gWx5_yZ.appendChild(iEf1_gH);
+                
+                aXy7_zA.appendChild(gWx5_yZ);
+            });
+    
+            yPq1_rS.appendChild(zTu4_vW);
+            yPq1_rS.appendChild(aXy7_zA);
+            xLm8_nO.appendChild(yPq1_rS);
+            wHi5_jK.appendChild(xLm8_nO);
+    
+            // 添加提示信息
+            const helpText = document.createElement('p');
+            helpText.style.textAlign = 'center';
+            helpText.style.color = '#666';
+            helpText.textContent = '双击表格行可查看对应题目的图片';
+            xLm8_nO.insertBefore(helpText, yPq1_rS);
+    
+            const jIj4_kL = document.getElementById('iJk7_vB');
+            jIj4_kL.addEventListener('input', function() {
+                const kMn7_oP = this.value.trim().toLowerCase();
+                const lQs0_tU = yPq1_rS.querySelectorAll('tbody tr');
+                
+                lQs0_tU.forEach(row => {
+                    const mVw3_xY = row.dataset.points.toLowerCase();
+                    const nZa6_bC = row.dataset.title.toLowerCase();
+                    
+                    if (kMn7_oP === '' || 
+                        mVw3_xY.includes(kMn7_oP) || 
+                        nZa6_bC.includes(kMn7_oP)) {
+                        row.style.display = '';
+                        const oDe9_fG = row.querySelector('td:nth-child(2)');
+                        oDe9_fG.innerHTML = sVw6_xY(row.dataset.points, kMn7_oP);
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

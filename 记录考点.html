@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>容器布局示例</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: auto;
+            margin: 0;
+            background-color: #f4f4f4;
+            padding-top: 40px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background-color: rgba(230, 230, 230, 0.7);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+            border-radius: 8px;
+            overflow: hidden;
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 20px;
+            padding-top: 10px;
+        }
+
+        .container h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .container img {
+            width: 100%;
+            height: auto;
+            max-height: none;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #8a8a8a;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .export-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 4px 8px;
+            background-color: #484848;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .comment-btn {
+            position: fixed;
+            top: 60px; 
+            right: 20px;
+            padding: 4px 8px;
+            background-color: #484848;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .import-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            color: rgb(24, 24, 24);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        /* 新增自定义文件输入按钮样式 */
+        .custom-file-input {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .custom-file-input input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .custom-file-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .custom-file-btn:hover {
+            background-color: #45a049;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .custom-file-btn i {
+            margin-right: 8px;
+        }
+
+        .add-container-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+
+<body>
+
+    <!-- 替换原来的文件输入按钮 -->
+    <div class="custom-file-input">
+        <label class="custom-file-btn">
+            <i>📁</i>选择文件
+            <input type="file" id="import-btn" accept=".json">
+        </label>
+    </div>
+
+    <button class="export-btn" id="export-btn">导出为文件</button>
+
+    <button class="add-container-btn" id="add-container-btn">+</button>
+
+
+    <div id="container-wrapper"></div>
+
+
+    <script>
+        const xYz123 = './image/';
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const aBc456 = {
+                "1": {
+                    "tableData": [
+                        ["---", "---", "---"],
+                        ["---", "---", "---"],
+                        ["---", "---", "---"]
+                    ],
+                    "questionType": "选择",
+                    "subject": "高数"
+                }
+            };
+
+            Object.entries(aBc456).forEach(([dEf789, gHi012], index) => {
+                const { tableData, questionType, subject } = gHi012;
+                // 修改为只使用png格式
+                const jKl345 = xYz123 + dEf789 + '.png';
+                mNo678(index + 1, dEf789, jKl345, tableData, questionType, subject);
+            });
+
+            ahusZC(); 
+        });
+
+
+        function pQr901(sTu234, vWx567) {
+            sTu234.addEventListener('dblclick', function () {
+                const yZa890 = this.textContent;
+                const bCd123 = document.createElement('input');
+                bCd123.type = 'text';
+                bCd123.value = yZa890;
+                bCd123.style.width = '100%';
+                bCd123.style.height = '30px'; 
+
+                bCd123.addEventListener('blur', function () {
+                    const eFg456 = this.value || yZa890;
+                    sTu234.textContent = eFg456;
+                    hIj789(vWx567, eFg456);
+                });
+
+                bCd123.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        const eFg456 = this.value || yZa890;
+                        sTu234.textContent = eFg456;
+                        hIj789(vWx567, eFg456);
+                    }
+                });
+
+                this.textContent = '';
+                this.appendChild(bCd123);
+                bCd123.focus();
+            });
+        }
+
+
+        function kLm012(nOp345, qRs678) {
+            return nOp345.map(option =>
+                `<option value="${option.value}" ${option.text === qRs678 ? 'selected' : ''}>${option.text}</option>`
+            ).join('');
+        }
+
+        function mNo678(tUv901, wXy234, zAb567, cDe890, fGh123 = '选择', iJk456 = '高数') {
+            const lMn789 = document.createElement('div');
+            lMn789.className = 'container';
+        
+            const oQp012 = [
+                { value: 'choice', text: '选择' },
+                { value: 'fill', text: '填空' },
+                { value: 'answer', text: '解答' }
+            ];
+        
+            const rSt345 = [
+                { value: 'calculus', text: '高数' },
+                { value: 'linear-algebra', text: '线代' },
+                { value: 'introduction', text: '概论' }
+            ];
+        
+            lMn789.innerHTML = `
+                <h1 id="image-title-${tUv901}">${wXy234}</h1>
+                <img id="image-display-${tUv901}" src="" alt="示例图片">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="3">考点列表</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${cDe890.map(row => `
+                            <tr>
+                                ${row.map(cell => `<td style="width: 33.33%">${cell || '---'}</td>`).join('')}
+                            </tr>
+                        `).join('')}
+                        <!-- 移除了添加行的按钮 -->
+                        <tr>
+                            <td style="width: 33.33%">
+                                <span>难度: 难度</span>
+                            </td>
+                            <td style="width: 33.33%">
+                                <label for="question-type-${tUv901}">题型:</label>
+                                <select id="question-type-${tUv901}">
+                                    ${kLm012(oQp012, fGh123)}
+                                </select>
+                            </td>
+                            <td style="width: 33.33%">
+                                <label for="subject-${tUv901}">科目:</label>
+                                <select id="subject-${tUv901}">
+                                    ${kLm012(rSt345, iJk456)}
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+            
+            document.getElementById('container-wrapper').appendChild(lMn789);
+        
+            const uVw678 = lMn789.querySelector('h1');
+            const xYz901 = lMn789.querySelector('img');
+            hIj789(xYz901, wXy234);
+            pQr901(uVw678, xYz901);
+        
+            lMn789.querySelectorAll('tbody td').forEach(cell => {
+                cell.addEventListener('dblclick', function () {
+                    if (cell.querySelector('select')) return; 
+        
+                    const aBc234 = this.textContent;
+                    const dEf567 = document.createElement('input');
+                    dEf567.type = 'text';
+                    dEf567.value = aBc234 === '---' ? '' : aBc234;
+                    dEf567.style.width = '100%';
+                    dEf567.style.height = '30px';
+        
+                    dEf567.addEventListener('blur', function () {
+                        cell.textContent = this.value || '---';
+                        ahusZC();
+                    });
+        
+                    dEf567.addEventListener('keydown', function (event) {
+                        if (event.key === 'Enter') {
+                            cell.textContent = this.value || '---';
+                            ahusZC();
+                        }
+                    });
+        
+                    cell.textContent = '';
+                    cell.appendChild(dEf567);
+                    dEf567.focus();
+                });
+            });
+        
+        }
+
+        function hIj789(gHi890, jKl123) {
+            // 修改为只支持png格式
+            const mNo456 = xYz123 + jKl123 + '.png';
+            
+            const pQr789 = new Image();
+            
+            pQr789.onload = function() {
+                gHi890.src = mNo456;
+            };
+            
+            pQr789.onerror = function() {
+                // 图片加载失败时显示默认图片，修改x坐标使文本居中
+                gHi890.src = 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22318%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20318%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_158bd1d28ef%20text%20%7B%20fill%3A%23868e96%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A16pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_158bd1d28ef%22%3E%3Crect%20width%3D%22318%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22109%22%20y%3D%2297.35%22%3E图片未找到%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E';
+            };
+            
+            pQr789.src = mNo456;
+        }
+
+        const sTu012 = "P@s$w0rD#7^Kj*9!Lm&Z";
+
+        document.getElementById('export-btn').addEventListener('click', function () {
+            const vWx345 = document.querySelectorAll('.container');
+            const yZa678 = {};
+            const bCd901 = new Set();
+            const eFg234 = [];
+
+            vWx345.forEach(container => {
+                const hIj567 = container.querySelector('h1');
+                const kLm890 = hIj567.textContent.trim();
+
+                if (bCd901.has(kLm890)) {
+                    eFg234.push(kLm890);
+                } else {
+                    bCd901.add(kLm890);
+                }
+
+                const nOp123 = container.querySelectorAll('tbody tr');
+                const qRs456 = [];
+
+                nOp123.forEach((row, rowIndex) => {
+                    if (rowIndex < nOp123.length - 1) {
+                        const cells = row.querySelectorAll('td');
+                        if (!cells[0].querySelector('select')) {
+                            const tUv789 = Array.from(cells).map(cell => cell.textContent);
+                            qRs456.push(tUv789);
+                        }
+                    }
+                });
+
+                const wXy012 = container.querySelector(`#question-type-${hIj567.id.split('-').pop()}`);
+                const zAb345 = container.querySelector(`#subject-${hIj567.id.split('-').pop()}`);
+
+                const cDe678 = wXy012.options[wXy012.selectedIndex].text;
+                const fGh901 = zAb345.options[zAb345.selectedIndex].text;
+
+                yZa678[kLm890] = {
+                    tableData: qRs456,
+                    // difficulty: "难度", // 添加固定的难度值
+                    questionType: cDe678,
+                    subject: fGh901
+                };
+            });
+
+            if (eFg234.length > 0) {
+                alert(`以下标题存在重复，无法导出: ${eFg234.join(', ')}`);
+                return;
+            }
+
+            const iJk234 = JSON.stringify(yZa678);
+            const lMn567 = CryptoJS.AES.encrypt(iJk234, sTu012).toString();
+            const oQp890 = new Blob([lMn567], { type: 'application/json' });
+            const rSt123 = URL.createObjectURL(oQp890);
+            const uVw456 = document.createElement('a');
+            uVw456.href = rSt123;
+            uVw456.download = 'data.json';
+            uVw456.click();
+            URL.revokeObjectURL(rSt123);
+        });
+
+        document.getElementById('import-btn').addEventListener('change', function (event) {
+            const xYz789 = event.target.files[0];
+            if (xYz789) {
+                const aBc012 = new FileReader();
+                aBc012.onload = function (e) {
+                    try {
+                        const dEf345 = e.target.result;
+                        const gHi678 = CryptoJS.AES.decrypt(dEf345, sTu012);
+                        const jKl901 = JSON.parse(gHi678.toString(CryptoJS.enc.Utf8));
+
+                        document.getElementById('container-wrapper').innerHTML = '';
+
+                        Object.keys(jKl901).forEach((mNo234, index) => {
+                            const pQr567 = jKl901[mNo234];
+                            if (pQr567) {
+                                const { tableData, questionType, subject } = pQr567;
+                                // 修改为只使用png格式
+                                const sTu890 = xYz123 + mNo234 + '.png';
+                                mNo678(index + 1, mNo234, sTu890, tableData, questionType, subject);
+                            }
+                        });
+
+                        ahusZC();
+                    } catch (error) {
+                        console.error("Invalid JSON file", error);
+                        alert("导入失败：文件格式不正确或密钥错误");
+                    }
+                };
+                aBc012.readAsText(xYz789);
+            }
+        });
+
+        function ahusZC() {
+            const vWx123 = document.querySelectorAll('.container');
+
+            vWx123.forEach(container => {
+                const yZa456 = container.querySelectorAll('tbody td');
+                const bCd789 = {};
+
+                yZa456.forEach(cell => {
+                    if (cell.querySelector('select')) return;
+                    
+                    const eFg012 = cell.textContent;
+                    if (bCd789[eFg012]) {
+                        bCd789[eFg012]++;
+                    } else {
+                        bCd789[eFg012] = 1;
+                    }
+                });
+
+                yZa456.forEach(cell => {
+                    if (cell.querySelector('select')) {
+                        // 为包含select的单元格（题型和科目）设置黄色背景
+                        cell.style.backgroundColor = '#fff3cd';
+                        return;
+                    }
+                    
+                    // 包含"难度:"的单元格也设置为黄色背景
+                    if (cell.textContent.includes('难度:')) {
+                        cell.style.backgroundColor = '#fff3cd';
+                        return;
+                    }
+                    
+                    const eFg012 = cell.textContent;
+                    if (eFg012 === '---') {
+                        cell.style.backgroundColor = '#f8d7da'; 
+                    } else {
+                        cell.style.backgroundColor = '#fff3cd'; 
+                    }
+                });
+            });
+        }
+
+        function hIj345(iJk678, lMn901) {
+            Array.from(iJk678.options).forEach(option => {
+                if (option.text === lMn901) {
+                    iJk678.value = option.value;
+                }
+            });
+        }
+
+        document.getElementById('add-container-btn').addEventListener('click', function () {
+            const oQp234 = document.querySelectorAll('.container').length + 1;
+            const rSt567 = {
+                "tableData": [
+                    ["---", "---", "---"],
+                    ["---", "---", "---"],
+                    ["---", "---", "---"]
+                ],
+                "questionType": "选择",
+                "subject": "高数"
+            };
+            // 修改为只使用png格式
+            const uVw890 = xYz123 + oQp234 + '.png';
+            mNo678(oQp234, oQp234.toString(), uVw890, rSt567.tableData, rSt567.questionType, rSt567.subject);
+            ahusZC(); 
+        });
+    </script>
